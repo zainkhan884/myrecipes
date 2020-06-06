@@ -40,3 +40,23 @@ $navbar-default-bg: #39cc59;
 	color: #a4ad9e;
 	text-decoration: none;
 }
+
+.footer-class {
+	color: #fff;
+	/*text-align: center;*/
+	margin-top: 40px;
+	padding: 2px;
+	border-top: 1px solid red;
+	padding-left: 5px;
+}
+
+.footer-class ul {
+  float: left;
+  list-style: none;
+  text-align: center;
+}
+
+.footer-class ul li {
+  float: left;
+  margin-left: 15px;
+}
