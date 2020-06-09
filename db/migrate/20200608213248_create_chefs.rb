@@ -4,7 +4,6 @@ class CreateChefs < ActiveRecord::Migration[5.2]
     	t.string :chefname
     	t.string :email
     	t.timestamps
-
     end
   end
 end
