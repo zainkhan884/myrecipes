@@ -6,8 +6,9 @@ class RecipesTest < ActionDispatch::IntegrationTest
   # end
 
   def setup
-    @chef = Chef.create(chefname: "zain", email: "zaink@gmail.com")
-    @recipe = Recipe.create(name: "vegetables market", description: "great vegetables market with good quality", chef:  @chef)
+    @chef = Chef.create!(chefname: "zain", email: "zaink@gmail.com",
+                         password: "password", password_confirmation: "password")
+    @recipe = Recipe.create(name: "vegetables market", description: "great vegetables market with good quality", chef: @chef)
     @recipe2 = Recipe.create(name: "chicken chilly", description: "great chicken taste", chef: @chef)
   end
 
@@ -35,14 +36,14 @@ class RecipesTest < ActionDispatch::IntegrationTest
     assert_match @recipe.name, response.body
     assert_match @recipe.description, response.body
     assert_match @chef.chefname, response.body
-    assert_select "a[href=?]", edit_recipe_path(@recipe), text: "Edit this Recipe"
-    assert_select "a[href=?]". recipe_path(@recipe), text: "Delete this Recipe"
+    assert_select "a[href=?]", edit_recipe_path(@recipe), text: "Edit This Recipe"
+    assert_select "a[href=?]". recipe_path(@recipe), method: :delete, text: "Delete this Recipe"
     assert_select "a[href=?]", recipes_path(@recipe), text: "Return ro recipes listing"
   end
 
   test "create new valid recipe" do
     get new_recipe_path
-    assert_templates 'recipes/new'
+    assert_template 'recipes/new'
     name_of_recipe = "TEst"
     description_of_recipe = "TESTTSTSTS"
     assert_difference 'Recipe.count', 1 do
@@ -55,11 +56,11 @@ class RecipesTest < ActionDispatch::IntegrationTest
 
    test "reject invalid recipe submissions" do
       get new_recipe_path
-      assert_templates 'recipes/new'
+      assert_template 'recipes/new'
       assert_no_difference 'Recipe.count' do
         post recipes_path, params: {recipe: {name: "", description: ""}}
        end
-       assert_templates 'recipes/new'
+       assert_template 'recipes/new'
        assert_select 'h2.panel-title'
        assert_select 'div.panel-body'
    end
