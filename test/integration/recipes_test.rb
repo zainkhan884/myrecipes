@@ -31,17 +31,19 @@ class RecipesTest < ActionDispatch::IntegrationTest
 
 
   test "should get recipe show" do 
+    sign_in_as(@chef, "password")
     get  recipe_path(@recipe)
     assert_template 'recipes/show'
     assert_match @recipe.name, response.body
     assert_match @recipe.description, response.body
     assert_match @chef.chefname, response.body
-    assert_select "a[href=?]", edit_recipe_path(@recipe), text: "Edit This Recipe"
-    assert_select "a[href=?]". recipe_path(@recipe), method: :delete, text: "Delete this Recipe"
-    assert_select "a[href=?]", recipes_path(@recipe), text: "Return ro recipes listing"
+    assert_select 'a[href=?]', edit_recipe_path(@recipe), text: "Edit This Recipe"
+    assert_select 'a[href=?]'. recipe_path(@recipe), method: :delete, text: "Delete this Recipe"
+    assert_select 'a[href=?]', recipes_path(@recipe), text: "Return ro recipes listing"
   end
 
   test "create new valid recipe" do
+    sign_in_as(@chef, "password")
     get new_recipe_path
     assert_template 'recipes/new'
     name_of_recipe = "TEst"
@@ -55,6 +57,7 @@ class RecipesTest < ActionDispatch::IntegrationTest
   end
 
    test "reject invalid recipe submissions" do
+      sign_in_as(@chef, "password")
       get new_recipe_path
       assert_template 'recipes/new'
       assert_no_difference 'Recipe.count' do
