@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:success] = "You have successfully logged in"
       redirect_to chef
     else
-    	flash.now[:danger] = "There was something wrong with your login"
+    	flash.now[:danger] = "There was something wrong with your login information"
     	render 'new'
     end
   end
