@@ -2,6 +2,10 @@ class IngredientsController < ApplicationController
   before_action :set_ingerdient, only: [:edit, :update, :show]
   before_action :require_admin, except: [:show, :index]
  
+  def index
+    @ingredients = Ingredient.order(created_at: :desc).paginate(page: params[:page], per_page: 4)
+  end
+  
   def new
     @ingredient = Ingredient.new
   end
@@ -17,7 +21,6 @@ class IngredientsController < ApplicationController
   end
 
   def edit
-
   end
 
   def update
@@ -27,10 +30,6 @@ class IngredientsController < ApplicationController
     else
       render 'edit'
     end
-  end
-
-  def index
-    @ingredients = Ingredient.order(created_at: :desc).paginate(page: params[:page], per_page: 4)
   end
 
   def show
