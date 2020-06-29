@@ -1,4 +1,23 @@
 <%#= render 'shared/page_title', title: "Create a New  Recipes" %>
+<% if @ingredient.errors.any? %>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+       <div class="panel panel-danger">
+         <div class="panel-heading">
+           <h2 class="panel-title">
+             <%= pluralize(@ingredient.errors.count, "error") %>
+             prohibited this <%= @ingredient.class %> from being saved:
+           </h2>
+      <div class="panel-body">
+         <ul><%= @ingredient.errors.full_messages.each do |msg| %>
+            <li> <%= msg %>  </li>
+            <% end %>
+         </ul>
+      </div>
+     </div>
+    </div>
+  </div>
+ <% end %>
 
 <div class="row">
   <div class="col-md-12">
@@ -11,7 +30,6 @@
       <%= f.text_field :name, class: "form-control", placeholder: "Enter a ingredient", autofocus: true %>
     </div>
    </div>
-
     <div class="form-group">
       <div class="col-md-offset-2 col-md-10">
         <%= f.submit(@ingredient.new_record? ? "Add Ingredient" : "Update Ingredient", class: 'btn btn-primary btn-lg btn-xlarge') %>
